@@ -1,0 +1,8 @@
+*.txt
+*.xml
+*.class
+*.jar
+*.log
+/src/main/java/features/constant/CredentialRetriever.java
+/.gitignore
+/.idea/.gitignore
