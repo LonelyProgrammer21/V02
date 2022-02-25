@@ -30,6 +30,8 @@ public class Moderation {
     * Remove role to another role
     * Modify Text Channel
     * Modify Role
+    * Create Category
+    *
     * and more...
     * */
 
@@ -45,6 +47,11 @@ public class Moderation {
 
             messageEvents.getChannel().sendMessage("You don't have permissions to create an invite.").queue();
         }
+    }
+
+    public static void makeCategory(){
+
+
     }
 
     public static void banAction(){
