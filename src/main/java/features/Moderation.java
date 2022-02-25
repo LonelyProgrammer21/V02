@@ -57,6 +57,11 @@ public class Moderation {
             messageEvents.getChannel().sendMessageEmbeds(Helper.sendCommandHelp("makecategory").build()).queue();
             return;
         }
+        if(!messageAuthor.hasPermission(Permission.MANAGE_PERMISSIONS) && !messageAuthor.hasPermission(Permission.MANAGE_ROLES)){
+
+            messageEvents.getChannel().sendMessage("You don't have permission to create category.").queue();
+            return;
+        }
         Role publicRole = guildActions.getPublicRole();
         String categoryName = textInput.get(2).trim();
         if(messageEvents.getMessage().getMentionedChannels().isEmpty()){
