@@ -5,7 +5,7 @@ import java.awt.Color;
 public class ConstantValues {
 
     public static final String[] MODERATIONCOMMANDS = {"ban","makerole","promote", "makeinvite", "modifyrole",
-            "maketextchannel", "removerole"};
+            "maketextchannel", "removerole","createcategory"};
     public static final String[] COMMONCOMMANDS = {"info","version", "avatar"};
     public static final String[] REACTIONCOMMANDS = {"blood", "kiss", "cheer", "hug"};
     public static final String[] MUSICCOMMANDS = {"play", "pause", "skip"};
