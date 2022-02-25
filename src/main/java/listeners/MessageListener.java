@@ -114,6 +114,7 @@ public final class MessageListener extends ListenerAdapter {
                         case "modifyrole" -> Moderation.modifyRole();
                         case "maketextchannel" -> Moderation.makeTextChannel();
                         case "removerole" -> Moderation.removeRole();
+                        case "createcategory" -> Moderation.makeCategory();
                     }
                 }
 
