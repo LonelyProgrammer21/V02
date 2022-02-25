@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -51,6 +52,19 @@ public class Moderation {
 
     public static void makeCategory(){
 
+        if(textInput.get(2).equalsIgnoreCase("help")){
+
+            messageEvents.getChannel().sendMessageEmbeds(Helper.sendCommandHelp("makecategory").build()).queue();
+            return;
+        }
+        Role publicRole = guildActions.getPublicRole();
+        String categoryName = textInput.get(2).trim();
+        if(messageEvents.getMessage().getMentionedChannels().isEmpty()){
+
+
+           guildActions.createCategory(categoryName).addRolePermissionOverride(publicRole.getIdLong(),
+                   Permission.MESSAGE_SEND.getRawValue(), Permission.VIEW_CHANNEL.getRawValue()).queue();
+        }
 
     }
 
