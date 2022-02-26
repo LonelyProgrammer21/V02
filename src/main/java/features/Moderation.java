@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.awt.*;
 import java.util.EnumSet;
@@ -52,6 +53,9 @@ public class Moderation {
 
     public static void makeCategory(){
 
+        EnumSet<Permission> allowed = EnumSet.of(Permission.MESSAGE_SEND,Permission.VIEW_CHANNEL);
+        EnumSet<Permission> denied = EnumSet.of(Permission.CREATE_INSTANT_INVITE);
+
         if(textInput.get(2).equalsIgnoreCase("help")){
 
             messageEvents.getChannel().sendMessageEmbeds(Helper.sendCommandHelp("makecategory").build()).queue();
@@ -73,9 +77,20 @@ public class Moderation {
         }
         if(!messageEvents.getMessage().getMentionedChannels().isEmpty()){
 
+            List<TextChannel> mentionedChannels = messageEvents.getMessage().getMentionedChannels();
+            for(TextChannel channel : mentionedChannels){
 
+                channel.getManager().setParent(newCategory).queue();
+            }
         }
-        if(!messageEvents.getMessage().getMentionedMembers().isEmpty()) {}
+
+        if(!messageEvents.getMessage().getMentionedMembers().isEmpty()) {
+
+            for(Member member : messageEvents.getMessage().getMentionedMembers()){
+
+                newCategory.getManager().putMemberPermissionOverride(member.getIdLong(),allowed,denied).queue();
+            }
+        }
 
     }
 
@@ -198,6 +213,7 @@ public class Moderation {
                 messageEvents.getChannel().sendMessage("Some channels are already existed. Remove it and try again.").queue();
                 return;
             }
+
             theChannel = messageEvents.getGuild().createTextChannel(channelName).setType(ChannelType.TEXT).complete();
                 if(textInput.contains("private")){
 
