@@ -58,7 +58,7 @@ public class Moderation {
 
         if(textInput.get(2).equalsIgnoreCase("help")){
 
-            messageEvents.getChannel().sendMessageEmbeds(Helper.sendCommandHelp("makecategory").build()).queue();
+            messageEvents.getChannel().sendMessageEmbeds(Helper.sendCommandHelp("createcategory").build()).queue();
             return;
         }
         if(!messageAuthor.hasPermission(Permission.MANAGE_PERMISSIONS) && !messageAuthor.hasPermission(Permission.MANAGE_ROLES)){

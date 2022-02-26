@@ -114,6 +114,24 @@ public class Helper {
                         time.get(Calendar.YEAR),
                         time.get(Calendar.HOUR), time.get(Calendar.MINUTE), time.get(Calendar.SECOND)));
             }
+            case "createcategory" -> {
+
+                embedBuilder.setTitle("Help | createcategory");
+                embedBuilder.setDescription("Make a category with options on a server.\nBy default" +
+                        " the category is set to private mode.\nNote: This action require" +
+                        " the author have a permission to create category and manage roles.");
+                embedBuilder.addField("Syntax","v! createcategory CategoryName\nNote: CategoryName should not have" +
+                        " spaces.",false);
+                embedBuilder.addField("Example making a category and move text-channels to it", "v! create" +
+                        "category CategoryName #text-channel #text-channel1 #text-channel(n)", false);
+                embedBuilder.addField("Example allowing a specific role/member to access the category.","v! " +
+                        "createcategory CategoryName @Role @member", false);
+                embedBuilder.setThumbnail("https://img.icons8.com/ios-glyphs/344/category.png");
+                embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(COLORS.length-1)]);
+                embedBuilder.setFooter(String.format("Date: %s %d %d Time: %d:%d:%d", ConstantValues.MONTHS[time.get(Calendar.MONTH)], time.get(Calendar.DATE),
+                        time.get(Calendar.YEAR),
+                        time.get(Calendar.HOUR), time.get(Calendar.MINUTE), time.get(Calendar.SECOND)));
+            }
         }
         return embedBuilder;
     }
