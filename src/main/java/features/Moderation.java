@@ -68,13 +68,9 @@ public class Moderation {
         }
         Role publicRole = guildActions.getPublicRole();
         String categoryName = textInput.get(2).trim();
-        Category newCategory = guildActions.createCategory(categoryName).complete();
-        if(messageEvents.getMessage().getMentionedChannels().isEmpty() && messageEvents.getMessage().getMentionedMembers().isEmpty()){
+        Category newCategory = guildActions.createCategory(categoryName).addRolePermissionOverride(publicRole.getIdLong(),
+                Permission.MESSAGE_SEND.getRawValue(), Permission.VIEW_CHANNEL.getRawValue()).complete();
 
-           guildActions.createCategory(categoryName).addRolePermissionOverride(publicRole.getIdLong(),
-                   Permission.MESSAGE_SEND.getRawValue(), Permission.VIEW_CHANNEL.getRawValue()).queue();
-           return;
-        }
         if(!messageEvents.getMessage().getMentionedChannels().isEmpty()){
 
             List<TextChannel> mentionedChannels = messageEvents.getMessage().getMentionedChannels();
