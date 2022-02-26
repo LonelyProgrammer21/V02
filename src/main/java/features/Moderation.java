@@ -92,6 +92,16 @@ public class Moderation {
             }
         }
 
+        if(!messageEvents.getMessage().getMentionedRoles().isEmpty()){
+
+            for(Role role : messageEvents.getMessage().getMentionedRoles()){
+
+                newCategory.getManager().putRolePermissionOverride(role.getIdLong(),allowed,denied).queue();
+            }
+        }
+
+        messageEvents.getChannel().sendMessage("Done!").queue();
+
     }
 
     public static void banAction(){
