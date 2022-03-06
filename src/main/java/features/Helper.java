@@ -49,6 +49,7 @@ public class Helper {
                         removerole
                         createcategory
                         maketextchannel
+                        modifytextchannelroles
                         """,false);
                 embedBuilder.addField("General Stuff", "info, avatar, version",false);
                 embedBuilder.addField("General Fun", "blood, kiss, hug, cheers",false);
@@ -64,7 +65,7 @@ public class Helper {
         switch (type) {
             case "maketextchannel" -> {
 
-                embedBuilder.setTitle("Help | maketextchannel");
+                embedBuilder.setTitle("Help | Make Text Channel");
                 embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(ConstantValues.COLORS.length-1)]);
                 embedBuilder.setDescription("Create a channel to a discord w/ specifed arguments");
                 embedBuilder.addField("Syntax", """
@@ -79,7 +80,7 @@ public class Helper {
             }
             case "modifyrole" -> {
 
-                embedBuilder.setTitle("Help | modifyrole");
+                embedBuilder.setTitle("Help | Modify Role");
                 embedBuilder.setDescription("Modify a role for a member (beta)");
                 embedBuilder.addField("Syntax", "v! modifyrole @roleName @members...",false);
                 embedBuilder.addField("Example adding a member to a role:", "v! modifyrole @foo @NullPointerException", true);
@@ -105,7 +106,7 @@ public class Helper {
             }
             case "removerole" -> {
 
-                embedBuilder.setTitle("Help | removerole");
+                embedBuilder.setTitle("Help | Remove Role");
                 embedBuilder.setDescription("Remove role from a member or a role");
                 embedBuilder.addField("Syntax", "!v removerole @subjectedRole @Members/@roles",false);
                 embedBuilder.addField("Example removing role from a member", "!v removerole @subjectedRole @Member1 @Member2",false);
@@ -118,7 +119,7 @@ public class Helper {
             }
             case "createcategory" -> {
 
-                embedBuilder.setTitle("Help | createcategory");
+                embedBuilder.setTitle("Help | Create Category");
                 embedBuilder.setDescription("Make a category with options on a server.\nBy default" +
                         " the category is set to private mode.\nNote: This action require" +
                         " the author have a permission to create category and manage roles.");
@@ -129,6 +130,20 @@ public class Helper {
                 embedBuilder.addField("Example allowing a specific role/member to access the category.","v! " +
                         "createcategory CategoryName @Role @member", false);
                 embedBuilder.setThumbnail("https://img.icons8.com/ios-glyphs/344/category.png");
+                embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(COLORS.length-1)]);
+                embedBuilder.setFooter(String.format("Date: %s %d %d Time: %d:%d:%d", ConstantValues.MONTHS[time.get(Calendar.MONTH)], time.get(Calendar.DATE),
+                        time.get(Calendar.YEAR),
+                        time.get(Calendar.HOUR), time.get(Calendar.MINUTE), time.get(Calendar.SECOND)));
+            }
+
+            case "modifytextchannelroles" -> {
+
+                embedBuilder.setTitle("Help | Modify Text Channel Roles");
+                embedBuilder.setDescription("Modify a text channel's roles\nNote:The user should have sufficient permission " +
+                        "to execute this command.");
+                embedBuilder.addField("Syntax", "v! modifytextchannelroles",  false);
+                embedBuilder.addField("Example modifying roles on text channel.",
+                        "v! modifytextchannelroles #text-channel @role",false);
                 embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(COLORS.length-1)]);
                 embedBuilder.setFooter(String.format("Date: %s %d %d Time: %d:%d:%d", ConstantValues.MONTHS[time.get(Calendar.MONTH)], time.get(Calendar.DATE),
                         time.get(Calendar.YEAR),

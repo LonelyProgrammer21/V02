@@ -96,7 +96,8 @@ public final class MessageListener extends ListenerAdapter {
                 if(moderationCommands.contains(command)){
 
                     String type = moderationCommands.get(moderationCommands.indexOf(command));
-                    if(textInput.size() == 3 && textInput.get(2).equalsIgnoreCase("help")){
+                    System.out.println(type);
+                    if(textInput.size() == 3 && textInput.get(1).equalsIgnoreCase("help")){
 
                         messageEvents.getChannel().sendMessageEmbeds(Helper.sendHelp(command).build()).queue();
                         return;

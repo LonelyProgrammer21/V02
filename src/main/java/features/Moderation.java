@@ -40,9 +40,15 @@ public class Moderation {
 
     public static void modifytextchannelroles(){
 
+        if(textInput.size() > 3 && textInput.get(2).equalsIgnoreCase("help")){
+
+            messageEvents.getChannel().sendMessageEmbeds(Helper.sendCommandHelp("modifytextchannelroles").build()).queue();
+            return;
+        }
+
         if(messageEvents.getMessage().getMentionedRoles().isEmpty() | messageEvents.getMessage().getMentionedChannels().isEmpty()){
 
-            messageEvents.getChannel().sendMessage("Incorrect Arguments. Ex: modifytextchannelroles #textchannel... #roles...").queue();
+            messageEvents.getChannel().sendMessageEmbeds(Helper.sendCommandHelp("modifytextchannelroles").build()).queue();
             return;
         }
         for(TextChannel ch: messageEvents.getMessage().getMentionedChannels()){
