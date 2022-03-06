@@ -47,6 +47,8 @@ public class Helper {
                         promote
                         modifyrole
                         removerole
+                        createcategory
+                        maketextchannel
                         """,false);
                 embedBuilder.addField("General Stuff", "info, avatar, version",false);
                 embedBuilder.addField("General Fun", "blood, kiss, hug, cheers",false);
