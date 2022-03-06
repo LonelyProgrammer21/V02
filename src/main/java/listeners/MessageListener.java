@@ -96,7 +96,7 @@ public final class MessageListener extends ListenerAdapter {
                 if(moderationCommands.contains(command)){
 
                     String type = moderationCommands.get(moderationCommands.indexOf(command));
-                    if(textInput.size() == 3 && textInput.get(2).equalsIgnoreCase("-help")){
+                    if(textInput.size() == 3 && textInput.get(2).equalsIgnoreCase("help")){
 
                         messageEvents.getChannel().sendMessageEmbeds(Helper.sendHelp(command).build()).queue();
                         return;
@@ -115,6 +115,7 @@ public final class MessageListener extends ListenerAdapter {
                         case "maketextchannel" -> Moderation.makeTextChannel();
                         case "removerole" -> Moderation.removeRole();
                         case "createcategory" -> Moderation.makeCategory();
+                        case "modifytextchannelroles" -> Moderation.modifytextchannelroles();
                     }
                 }
 
