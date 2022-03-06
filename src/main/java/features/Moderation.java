@@ -21,7 +21,8 @@ public class Moderation {
     public static List<Member> mentionedMembers;
     public static Member messageAuthor;
     private static Role subjectedRole;
-
+    private static final EnumSet<Permission> allowed = EnumSet.of(Permission.MESSAGE_SEND,Permission.VIEW_CHANNEL);
+    private static final EnumSet<Permission> denied = EnumSet.of(Permission.CREATE_INSTANT_INVITE);
     /*
     * Goal:
     * MakeRole
@@ -37,6 +38,22 @@ public class Moderation {
     * and more...
     * */
 
+    public static void modifytextchannelroles(){
+
+        if(messageEvents.getMessage().getMentionedRoles().isEmpty() | messageEvents.getMessage().getMentionedChannels().isEmpty()){
+
+            messageEvents.getChannel().sendMessage("Incorrect Arguments. Ex: modifytextchannelroles #textchannel... #roles...").queue();
+            return;
+        }
+        for(TextChannel ch: messageEvents.getMessage().getMentionedChannels()){
+
+            for(Role e: messageEvents.getMessage().getMentionedRoles()){
+
+                ch.getManager().putRolePermissionOverride(e.getIdLong(), allowed,denied).queue();
+            }
+        }
+        messageEvents.getChannel().sendMessage("Done!").queue();
+    }
     public static void makeInvite(){
 
         String url = Objects.requireNonNull(messageEvents.getGuild().getDefaultChannel()).createInvite().complete().getUrl();
@@ -52,9 +69,6 @@ public class Moderation {
     }
 
     public static void makeCategory(){
-
-        EnumSet<Permission> allowed = EnumSet.of(Permission.MESSAGE_SEND,Permission.VIEW_CHANNEL);
-        EnumSet<Permission> denied = EnumSet.of(Permission.CREATE_INSTANT_INVITE);
 
         if(textInput.get(2).equalsIgnoreCase("help")){
 
