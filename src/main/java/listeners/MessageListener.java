@@ -18,6 +18,7 @@ public final class MessageListener extends ListenerAdapter {
     private final ArrayList<String> textInput = new ArrayList<>();
     private final ArrayList<String> reactionCommands = new ArrayList<>(Arrays.asList(ConstantValues.REACTIONCOMMANDS));
     private final ArrayList<String> moderationCommands = new ArrayList<>(Arrays.asList(ConstantValues.MODERATIONCOMMANDS));
+    private final ArrayList<String> musicCommand = new ArrayList<>(Arrays.asList(ConstantValues.MUSICCOMMANDS));
     private Guild guildActions = null;
     private MessageReceivedEvent messageEvents = null;
     List<Member> mentionedMembers = null;
@@ -91,7 +92,10 @@ public final class MessageListener extends ListenerAdapter {
 
                     messageEvents.getChannel().sendMessageEmbeds(Fun.makeOutputTemplate(command,this.messageEvents
                     ).build()).queue();
-                }else{
+            }else if (musicCommand.contains(command)){
+
+
+            }else{
 
                 if(moderationCommands.contains(command)){
 
