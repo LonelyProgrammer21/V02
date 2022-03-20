@@ -94,7 +94,7 @@ public final class MessageListener extends ListenerAdapter {
                     ).build()).queue();
             }else if (musicCommand.contains(command)){
 
-
+                PlayMusic.playMusic(messageEvents);
             }else{
 
                 if(moderationCommands.contains(command)){
