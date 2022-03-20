@@ -23,20 +23,6 @@ public class Moderation {
     private static Role subjectedRole;
     private static final EnumSet<Permission> allowed = EnumSet.of(Permission.MESSAGE_SEND,Permission.VIEW_CHANNEL);
     private static final EnumSet<Permission> denied = EnumSet.of(Permission.CREATE_INSTANT_INVITE);
-    /*
-    * Goal:
-    * MakeRole
-    * MakeInvite
-    * MakeTextChannel
-    * Ban
-    * Remove Member from role
-    * Remove role to another role
-    * Modify Text Channel
-    * Modify Role
-    * Create Category
-    *
-    * and more...
-    * */
 
     public static void modifytextchannelroles(){
 
