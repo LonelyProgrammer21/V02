@@ -35,6 +35,7 @@ public final class MessageListener extends ListenerAdapter {
 
             if(textInput.size() >= 2){
                 if(textInput.get(0).equalsIgnoreCase("v!")){
+                    System.out.println(textInput.get(1));
                     parsedCommand(textInput.get(1));
                 }else {
 
@@ -94,7 +95,9 @@ public final class MessageListener extends ListenerAdapter {
                     ).build()).queue();
             }else if (musicCommand.contains(command)){
 
-                PlayMusic.playMusic(messageEvents);
+                System.out.println(messageEvents  == null);
+                PlayMusic.event = messageEvents;
+                PlayMusic.getCommand(command, messageEvents);
             }else{
 
                 if(moderationCommands.contains(command)){

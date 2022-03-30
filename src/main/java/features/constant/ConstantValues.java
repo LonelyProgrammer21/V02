@@ -2,7 +2,7 @@ package features.constant;
 
 import java.awt.Color;
 
-public class ConstantValues {
+public final class ConstantValues {
 
     public static final String[] MODERATIONCOMMANDS = {"ban","makerole","promote", "makeinvite", "modifyrole",
             "maketextchannel", "removerole","createcategory", "modifytextchannelroles"};
