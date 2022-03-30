@@ -4,14 +4,27 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 public class PlayMusic {
 
     static ArrayList<String> textInput = new ArrayList<>();
+    public static MessageReceivedEvent event;
 
-    public static void playMusic(MessageReceivedEvent event){
+    public static void getCommand(String command){
+
+        switch (command) {
+            case "join" -> joinCommand();
+            case "play" -> playCommand();
+        }
+    }
+    private static void playCommand(){
+
+
+    }
+    private static void joinCommand(){
 
         final TextChannel channel = event.getTextChannel();
         final Member self = event.getGuild().getSelfMember();
