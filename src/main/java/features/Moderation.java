@@ -4,7 +4,6 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.awt.*;
 import java.util.EnumSet;
@@ -28,13 +27,13 @@ public class Moderation {
 
         if(textInput.size() > 3 && textInput.get(2).equalsIgnoreCase("help")){
 
-            messageEvents.getChannel().sendMessageEmbeds(Helper.sendCommandHelp("modifytextchannelroles").build()).queue();
+            messageEvents.getChannel().sendMessageEmbeds(Helper.sendModerationCommandHelp("modifytextchannelroles").build()).queue();
             return;
         }
 
         if(messageEvents.getMessage().getMentionedRoles().isEmpty() | messageEvents.getMessage().getMentionedChannels().isEmpty()){
 
-            messageEvents.getChannel().sendMessageEmbeds(Helper.sendCommandHelp("modifytextchannelroles").build()).queue();
+            messageEvents.getChannel().sendMessageEmbeds(Helper.sendModerationCommandHelp("modifytextchannelroles").build()).queue();
             return;
         }
         for(TextChannel ch: messageEvents.getMessage().getMentionedChannels()){
@@ -64,7 +63,7 @@ public class Moderation {
 
         if(textInput.get(2).equalsIgnoreCase("help")){
 
-            messageEvents.getChannel().sendMessageEmbeds(Helper.sendCommandHelp("createcategory").build()).queue();
+            messageEvents.getChannel().sendMessageEmbeds(Helper.sendModerationCommandHelp("createcategory").build()).queue();
             return;
         }
         if(!messageAuthor.hasPermission(Permission.MANAGE_PERMISSIONS) && !messageAuthor.hasPermission(Permission.MANAGE_ROLES)){
@@ -158,7 +157,7 @@ public class Moderation {
 
             if(textInput.get(2).equalsIgnoreCase("help")){
 
-                messageEvents.getChannel().sendMessageEmbeds(Helper.sendCommandHelp("modifyrole").build()).queue();
+                messageEvents.getChannel().sendMessageEmbeds(Helper.sendModerationCommandHelp("modifyrole").build()).queue();
                 return;
             }
             if(!messageEvents.getMessage().getMentionedRoles().isEmpty()){
@@ -213,7 +212,7 @@ public class Moderation {
             channelName = textInput.get(2);
             if(channelName.equalsIgnoreCase("help")){
 
-               messageEvents.getChannel().sendMessageEmbeds(Helper.sendCommandHelp("maketextchannel").build()).queue();
+               messageEvents.getChannel().sendMessageEmbeds(Helper.sendModerationCommandHelp("maketextchannel").build()).queue();
                 return;
             }
             if(!messageAuthor.hasPermission(Permission.MANAGE_CHANNEL)){
@@ -260,7 +259,7 @@ public class Moderation {
             if (textInput.size() > 2) {
                 if(textInput.get(2).equalsIgnoreCase("help")){
 
-                    messageEvents.getChannel().sendMessageEmbeds(Helper.sendCommandHelp("makerole").build()).queue();
+                    messageEvents.getChannel().sendMessageEmbeds(Helper.sendModerationCommandHelp("makerole").build()).queue();
                     return;
                 }
 
@@ -290,7 +289,7 @@ public static void removeRole(){
 
         if(textInput.get(2).equalsIgnoreCase("help")){
 
-            messageEvents.getChannel().sendMessageEmbeds(Helper.sendCommandHelp("removerole").build()).queue();
+            messageEvents.getChannel().sendMessageEmbeds(Helper.sendModerationCommandHelp("removerole").build()).queue();
             return;
         }
         if(!messageAuthor.hasPermission(Permission.MANAGE_ROLES)){
