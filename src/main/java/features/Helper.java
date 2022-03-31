@@ -59,7 +59,7 @@ public class Helper {
         return embedBuilder;
     }
 
-    public static EmbedBuilder sendCommandHelp(String type){
+    public static EmbedBuilder sendModerationCommandHelp(String type){
 
         embedBuilder.clear();
         switch (type) {
@@ -150,6 +150,39 @@ public class Helper {
                         time.get(Calendar.HOUR), time.get(Calendar.MINUTE), time.get(Calendar.SECOND)));
             }
         }
+        return embedBuilder;
+    }
+
+    public static EmbedBuilder sendMusicCommandHelp(String type){
+
+        embedBuilder.clear();
+        System.out.println(type);
+        switch (type){
+
+            case "join" -> {
+                embedBuilder.setTitle("Help | Joining bot to a voice channel");
+                embedBuilder.setDescription("Join a bot to a specific voice channel.");
+                embedBuilder.addField("Syntax","v! join\nNote: The user should be in a voice channel " +
+                        "and the bot is not on other voice channel to make it work",false);
+                embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(COLORS.length-1)]);
+                embedBuilder.setFooter(String.format("Date: %s %d %d Time: %d:%d:%d", ConstantValues.MONTHS[time.get(Calendar.MONTH)], time.get(Calendar.DATE),
+                        time.get(Calendar.YEAR),
+                        time.get(Calendar.HOUR), time.get(Calendar.MINUTE), time.get(Calendar.SECOND)));
+            }
+            case "play" -> {
+
+                embedBuilder.setTitle("Help | Playing music");
+                embedBuilder.setDescription("Play music with the bot");
+                embedBuilder.addField("Syntax","v! play URL/name\nNote: The user should be in a voice channel " +
+                        "and the bot is not on other voice channel to make it work",false);
+                embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(COLORS.length-1)]);
+                embedBuilder.setFooter(String.format("Date: %s %d %d Time: %d:%d:%d", ConstantValues.MONTHS[time.get(Calendar.MONTH)], time.get(Calendar.DATE),
+                        time.get(Calendar.YEAR),
+                        time.get(Calendar.HOUR), time.get(Calendar.MINUTE), time.get(Calendar.SECOND)));
+
+            }
+        }
+
         return embedBuilder;
     }
 
