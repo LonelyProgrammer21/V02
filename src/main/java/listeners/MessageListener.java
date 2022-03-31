@@ -95,9 +95,14 @@ public final class MessageListener extends ListenerAdapter {
                     ).build()).queue();
             }else if (musicCommand.contains(command)){
 
-                System.out.println(messageEvents  == null);
+                if(textInput.size() == 3 && textInput.get(2).equalsIgnoreCase("help")){
+
+                    messageEvents.getChannel().sendMessageEmbeds(Helper.sendMusicCommandHelp(command).build()).queue();
+                    return;
+                }
                 PlayMusic.event = messageEvents;
-                PlayMusic.getCommand(command, messageEvents);
+                PlayMusic.getCommand(command, messageEvents, new ArrayList<>(textInput.subList(textInput.indexOf(command)+1,
+                        textInput.size())));
             }else{
 
                 if(moderationCommands.contains(command)){
