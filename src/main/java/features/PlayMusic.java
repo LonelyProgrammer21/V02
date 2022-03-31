@@ -6,6 +6,9 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 
 public class PlayMusic {
 
@@ -20,12 +23,17 @@ public class PlayMusic {
     private static boolean autoJoin = false;
 
 
-    public static void getCommand(@NotNull String command, MessageReceivedEvent guildEvent){
+    public static void getCommand(@NotNull String command, MessageReceivedEvent guildEvent, ArrayList<String> tokens){
         event = guildEvent;
         initValues();
+        String title = "";
+        for (String data: tokens) {
+            title += " " + data;
+        }
+        title = title.trim();
         switch (command) {
             case "join" -> joinCommand();
-            case "play" -> playCommand();
+            case "play" -> playCommand(title);
         }
     }
 
@@ -77,7 +85,7 @@ public class PlayMusic {
         }
     }
 
-    private static void playCommand(){
+    private static void playCommand(String url){
 
         autoJoin = true;
         if (isMemberOnVoiceChannel()){
@@ -86,9 +94,25 @@ public class PlayMusic {
                     joinCommand();
                 }
             }
-            PlayerManager.getInstance().loadAndPlay(channel, "https://www.youtube.com/watch?v=vxrSAwtdtuQ");
+
+            if(!isUrl(url)){
+
+                url = "ytsearch:" + url;
+            }
+            System.out.println(url);
+            PlayerManager.getInstance().loadAndPlay(channel, url);
         }
 
+    }
+
+    private static boolean isUrl(String url){
+
+        try {
+            new URL(url);
+            return true;
+        }catch (MalformedURLException e){
+            return false;
+        }
     }
 
 }
