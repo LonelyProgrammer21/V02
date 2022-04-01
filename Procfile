@@ -1,0 +1,1 @@
+worker: java -jar out/artifacts/V02_jar/V02.jar
