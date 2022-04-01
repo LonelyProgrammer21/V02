@@ -1,1 +1,1 @@
-worker: java -jar out/artifacts/V02_jar/V02.jar
+worker: java -jar target/V02-1.0-SNAPSHOT.java
