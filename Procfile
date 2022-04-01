@@ -1,1 +1,1 @@
-worker: java -jar target/V02-1.0-SNAPSHOT.jar
+worker: java -jar target/V02.jar
