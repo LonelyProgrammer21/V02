@@ -89,8 +89,10 @@ public class PlayMusic {
         boolean autoJoin = true;
         if (isMemberOnVoiceChannel()){
             if(autoJoin){
-                if(!selfVoiceState.inAudioChannel() && isMemberOnVoiceChannel()){
+                if(!selfVoiceState.inAudioChannel() || isMemberOnVoiceChannel()){
                     joinCommand();
+                }else {
+                    return;
                 }
             }
 
@@ -101,6 +103,11 @@ public class PlayMusic {
             System.out.println(url);
             PlayerManager.getInstance().loadAndPlay(theUser,channel, url);
         }
+
+    }
+
+    public static void skipMusic(){
+
 
     }
 
