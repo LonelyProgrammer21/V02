@@ -20,6 +20,7 @@ public class PlayMusic {
     private static GuildVoiceState memberVoiceState;
     private static AudioManager audioManager;
     private static  AudioChannel memberChannel;
+    private static boolean autoJoin = true;
 
 
     public static void getCommand(@NotNull String command, MessageReceivedEvent guildEvent, ArrayList<String> tokens){
@@ -30,9 +31,10 @@ public class PlayMusic {
             title += " " + data;
         }
         title = title.trim();
-        switch (command) {
+        switch (command.toLowerCase()) {
             case "join" -> joinCommand();
             case "play" -> playCommand(title);
+            case "stop" -> stopCommand();
         }
     }
 
@@ -49,7 +51,7 @@ public class PlayMusic {
 
     private static boolean canConnect(){
 
-        if(selfVoiceState.inAudioChannel()){
+        if(selfVoiceState.inAudioChannel() && !autoJoin){
 
             channel.sendMessage("I'm already in a voice channel.").queue();
             return false;
@@ -85,8 +87,7 @@ public class PlayMusic {
     }
 
     private static void playCommand(String url){
-
-        boolean autoJoin = true;
+        autoJoin = true;
         if (isMemberOnVoiceChannel()){
             if(autoJoin){
                 if(!selfVoiceState.inAudioChannel() || isMemberOnVoiceChannel()){
@@ -103,12 +104,22 @@ public class PlayMusic {
             System.out.println(url);
             PlayerManager.getInstance().loadAndPlay(theUser,channel, url);
         }
+        autoJoin = false;
 
     }
 
-    public static void skipMusic(){
+    private static void stopCommand(){
 
+        if(isMemberOnVoiceChannel()){
 
+            if(selfVoiceState.getChannel().equals(memberVoiceState.getChannel())){
+
+                PlayerManager.stop(event);
+            }else {
+
+                event.getChannel().sendMessage("Please join to the channel where i was joined to make this work.").queue();
+            }
+        }
     }
 
     private static boolean isUrl(String url){

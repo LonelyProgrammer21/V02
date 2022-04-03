@@ -8,7 +8,7 @@ public final class ConstantValues {
             "maketextchannel", "removerole","createcategory", "modifytextchannelroles"};
     public static final String[] COMMONCOMMANDS = {"info","version", "avatar"};
     public static final String[] REACTIONCOMMANDS = {"blood", "kiss", "cheer", "hug"};
-    public static final String[] MUSICCOMMANDS = {"play", "pause", "skip","join"};
+    public static final String[] MUSICCOMMANDS = {"play", "pause", "skip","join", "stop"};
 
     public static final String[] ANGRYEMOTE = {"(¬､¬)","(⩺_⩹)", "(╰ ‿ ╯)", "(◣_◢)", "(¬▂¬)", "༽◺_◿༼", "ヾ(。◣∀◢。)ﾉ","（ ▽д▽）"
             ,"⸨◺_◿⸩","∩ (◣_◢) ∩","(╬≖_≖)","(ง •̀_•́)ง"};
