@@ -63,7 +63,7 @@ public class PlayMusic {
 
         if(!memberVoiceState.inAudioChannel()){
 
-            channel.sendMessage("Please join to a voice member to make this command work.").queue();
+            channel.sendMessage("Please join to a voice channel to make this command work.").queue();
             return false;
         }
         return canAccessVoiceChannel();
@@ -110,15 +110,19 @@ public class PlayMusic {
 
     private static void stopCommand(){
 
+        if(!selfVoiceState.inAudioChannel()){
+
+            event.getChannel().sendMessage("I am not in voice channel.").queue();
+            return;
+        }
         if(isMemberOnVoiceChannel()){
 
-            if(selfVoiceState.getChannel().equals(memberVoiceState.getChannel())){
-
-                PlayerManager.stop(event);
-            }else {
+            if(!selfVoiceState.getChannel().equals(memberVoiceState.getChannel())){
 
                 event.getChannel().sendMessage("Please join to the channel where i was joined to make this work.").queue();
+                return;
             }
+            PlayerManager.stop(event);
         }
     }
 

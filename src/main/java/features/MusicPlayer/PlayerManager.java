@@ -88,11 +88,13 @@ public class PlayerManager {
 
     public static void stop(MessageReceivedEvent evt){
 
+        String message = "The music has been stopped and cleared.";
+
         GuildMusicManager manager = PlayerManager.getInstance().getMusicManager(evt.getGuild());
         manager.scheduler.player.stopTrack();
         manager.scheduler.queue.clear();
         builder.clear();
-        builder.setDescription("The music has been stopped and cleared.");
+        builder.setDescription(message);
         builder.setColor(COLORS[Computations.generateIndex(COLORS.length-1)]);
 
         evt.getChannel().sendMessageEmbeds(builder.build()).queue();
