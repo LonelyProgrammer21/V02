@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ public class PlayerManager {
     private static PlayerManager INSTANCE;
     private final Map<Long, GuildMusicManager> musicManagers;
     private final AudioPlayerManager audioPlayerManager;
+    private static EmbedBuilder builder = new EmbedBuilder();
     public PlayerManager(){
 
         this.musicManagers = new HashMap<>();
@@ -52,7 +54,7 @@ public class PlayerManager {
         return INSTANCE;
     }
 
-    public EmbedBuilder sendMessage(AudioTrackInfo trackInfo, String url, int queueSize, Member theUser){
+    public EmbedBuilder sendPlayMessage(AudioTrackInfo trackInfo, String url, int queueSize, Member theUser){
 
         String format = "";
 
@@ -69,7 +71,6 @@ public class PlayerManager {
         int minutes = getSecond / 60;
         int seconds = getSecond % 60;
         String songLen = String.format("%d:%d", minutes, seconds);
-        EmbedBuilder builder = new EmbedBuilder();
         builder.setTitle(format);
         builder.setDescription(trackInfo.title+"\n"+"`0:00 / "+songLen+"`"+"\nIn position #"+(queueSize+1)+"");
         builder.setColor(COLORS[Computations.generateIndex(COLORS.length-1)]);
@@ -79,6 +80,24 @@ public class PlayerManager {
         return builder;
     }
 
+    public void skip(MessageReceivedEvent evt){
+
+            builder.clear();
+
+    }
+
+    public static void stop(MessageReceivedEvent evt){
+
+        GuildMusicManager manager = PlayerManager.getInstance().getMusicManager(evt.getGuild());
+        manager.scheduler.player.stopTrack();
+        manager.scheduler.queue.clear();
+        builder.clear();
+        builder.setDescription("The music has been stopped and cleared.");
+        builder.setColor(COLORS[Computations.generateIndex(COLORS.length-1)]);
+
+        evt.getChannel().sendMessageEmbeds(builder.build()).queue();
+    }
+
     public void loadAndPlay(Member theUser, TextChannel channel, String trackUrl){
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
         this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
@@ -86,7 +105,7 @@ public class PlayerManager {
             public void trackLoaded(AudioTrack audioTrack) {
                 musicManager.scheduler.queue(audioTrack);
 
-                channel.sendMessageEmbeds(sendMessage(audioTrack.getInfo(),audioTrack.getIdentifier(),
+                channel.sendMessageEmbeds(sendPlayMessage(audioTrack.getInfo(),audioTrack.getIdentifier(),
                         musicManager.scheduler.getQueueSize(), theUser).build()).queue();
             }
 
