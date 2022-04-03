@@ -7,12 +7,18 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
+import features.Computations;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static features.constant.ConstantValues.COLORS;
 
 public class PlayerManager {
 
@@ -46,15 +52,42 @@ public class PlayerManager {
         return INSTANCE;
     }
 
-    public void loadAndPlay(TextChannel channel, String trackUrl){
+    public EmbedBuilder sendMessage(AudioTrackInfo trackInfo, String url, int queueSize, Member theUser){
+
+        String format = "";
+
+        if (queueSize == 0){
+
+            format = "Now Playing";
+        }else {
+
+            format = "Added to Queue";
+        }
+
+        double milliseconds = trackInfo.length;
+        int getSecond = (int)milliseconds / 1000;
+        int minutes = getSecond / 60;
+        int seconds = getSecond % 60;
+        String songLen = String.format("%d:%d", minutes, seconds);
+        EmbedBuilder builder = new EmbedBuilder();
+        builder.setTitle(format);
+        builder.setDescription(trackInfo.title+"\n"+"`0:00 / "+songLen+"`"+"\nIn position #"+(queueSize+1)+"");
+        builder.setColor(COLORS[Computations.generateIndex(COLORS.length-1)]);
+        builder.setThumbnail(String.format("%s%s%s","https://img.youtube.com/vi/",url,"/mqdefault.jpg"));
+        builder.setFooter("Requested by: "+ theUser.getUser().getName());
+
+        return builder;
+    }
+
+    public void loadAndPlay(Member theUser, TextChannel channel, String trackUrl){
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
         this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
                 musicManager.scheduler.queue(audioTrack);
-                channel.sendMessage("Adding to queue: ").
-                        append(audioTrack.getInfo().title).append(" by ")
-                        .append(audioTrack.getInfo().author).queue();
+
+                channel.sendMessageEmbeds(sendMessage(audioTrack.getInfo(),audioTrack.getIdentifier(),
+                        musicManager.scheduler.getQueueSize(), theUser).build()).queue();
             }
 
             @Override
@@ -62,14 +95,6 @@ public class PlayerManager {
                 final List<AudioTrack> tracks = audioPlaylist.getTracks();
                 trackLoaded(tracks.get(0));
 
-//                for (AudioTrack list : tracks) {
-//
-//                    musicManager.scheduler.queue(list);
-//                }
-//
-//                channel.sendMessage("Adding to queue: ").
-//                        append("Playlist size: " + tracks.size())
-//                        .append(" Added to queue.").queue();
             }
 
             @Override

@@ -20,7 +20,6 @@ public class PlayMusic {
     private static GuildVoiceState memberVoiceState;
     private static AudioManager audioManager;
     private static  AudioChannel memberChannel;
-    private static boolean autoJoin = false;
 
 
     public static void getCommand(@NotNull String command, MessageReceivedEvent guildEvent, ArrayList<String> tokens){
@@ -87,7 +86,7 @@ public class PlayMusic {
 
     private static void playCommand(String url){
 
-        autoJoin = true;
+        boolean autoJoin = true;
         if (isMemberOnVoiceChannel()){
             if(autoJoin){
                 if(!selfVoiceState.inAudioChannel() && isMemberOnVoiceChannel()){
@@ -100,7 +99,7 @@ public class PlayMusic {
                 url = "ytsearch:" + url;
             }
             System.out.println(url);
-            PlayerManager.getInstance().loadAndPlay(channel, url);
+            PlayerManager.getInstance().loadAndPlay(theUser,channel, url);
         }
 
     }
