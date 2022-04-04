@@ -109,9 +109,10 @@ public final class MessageListener extends ListenerAdapter {
 
                     String type = moderationCommands.get(moderationCommands.indexOf(command));
                     System.out.println(type);
-                    if(textInput.size() == 3 && textInput.get(1).equalsIgnoreCase("help")){
+                    if(textInput.size() == 3 && textInput.get(2).equalsIgnoreCase("help")){
 
-                        messageEvents.getChannel().sendMessageEmbeds(Helper.sendHelp(command).build()).queue();
+                        Helper.guildLocale = messageEvents.getMember().getGuild().getLocale();
+                        messageEvents.getChannel().sendMessageEmbeds(Helper.sendModerationCommandHelp(command).build()).queue();
                         return;
                     }
                     Moderation.messageEvents = messageEvents;
