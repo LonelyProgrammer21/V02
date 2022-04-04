@@ -54,8 +54,9 @@ public class PlayerManager {
         return INSTANCE;
     }
 
-    public EmbedBuilder sendPlayMessage(AudioTrackInfo trackInfo, String url, int queueSize, Member theUser){
+    public static EmbedBuilder sendPlayMessage(AudioTrackInfo trackInfo, String url, int queueSize, Member theUser){
 
+        builder.clear();
         String format = "";
 
         if (queueSize == 0){
@@ -80,9 +81,25 @@ public class PlayerManager {
         return builder;
     }
 
-    public void skip(MessageReceivedEvent evt){
+    public static void skip(MessageReceivedEvent evt){
 
-            builder.clear();
+        builder.clear();
+        builder.setColor(COLORS[Computations.generateIndex(COLORS.length-1)]);
+        GuildMusicManager manager = PlayerManager.getInstance().getMusicManager(evt.getGuild());
+        if(manager.audioPlayer.getPlayingTrack() == null){
+
+            builder.setDescription("There is no track currently playing.");
+            evt.getChannel().sendMessageEmbeds(builder.build()).queue();
+        }else {
+            builder.setDescription("Track skipped.");
+            manager.scheduler.nextTrack();
+
+            evt.getChannel().sendMessageEmbeds(builder.build()).queue();
+            evt.getChannel().sendMessageEmbeds(sendPlayMessage(manager.audioPlayer.getPlayingTrack().getInfo(),
+                    manager.audioPlayer.getPlayingTrack().getIdentifier(), manager.scheduler.getQueueSize(),
+                    evt.getMember()).build()).queue();
+        }
+
 
     }
 
