@@ -16,7 +16,7 @@ public class Main {
 
         try {
             JDA accessPoint = JDABuilder.createDefault(new CredentialRetriever().retrieveFile())
-                    .setActivity(Activity.playing("with your heart.")).enableIntents
+                    .setActivity(Activity.listening("v! help")).enableIntents
                             (GatewayIntent.GUILD_MEMBERS,GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_PRESENCES,
                                     GatewayIntent.GUILD_VOICE_STATES).enableCache(CacheFlag.ONLINE_STATUS, CacheFlag.VOICE_STATE
                     ).setMemberCachePolicy(MemberCachePolicy.ALL).build();
