@@ -35,6 +35,7 @@ public class PlayMusic {
             case "join" -> joinCommand();
             case "play" -> playCommand(title);
             case "stop" -> stopCommand();
+            case "skip" -> skipCommand();
         }
     }
 
@@ -108,22 +109,35 @@ public class PlayMusic {
 
     }
 
-    private static void stopCommand(){
+    private static boolean checkStates(){
 
         if(!selfVoiceState.inAudioChannel()){
 
             event.getChannel().sendMessage("I am not in voice channel.").queue();
-            return;
+            return false;
         }
         if(isMemberOnVoiceChannel()){
 
             if(!selfVoiceState.getChannel().equals(memberVoiceState.getChannel())){
 
                 event.getChannel().sendMessage("Please join to the channel where i was joined to make this work.").queue();
-                return;
+                return false;
             }
-            PlayerManager.stop(event);
+
         }
+        return true;
+    }
+
+    private static void stopCommand(){
+
+        if(checkStates())
+        PlayerManager.stop(event);
+    }
+
+    private static void skipCommand(){
+
+        if (checkStates())
+            PlayerManager.skip(event);
     }
 
     private static boolean isUrl(String url){
