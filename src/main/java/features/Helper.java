@@ -39,6 +39,7 @@ public class Helper {
                 """, false);
         embedBuilder.addField("General Stuff", "info, avatar, version", false);
         embedBuilder.addField("General Fun", "blood, kiss, hug, cheers", false);
+        embedBuilder.addField("Playing Music", "join, play, skip, stop",false);
         return embedBuilder;
     }
 
