@@ -54,15 +54,12 @@ public class PlayerManager {
         return INSTANCE;
     }
 
-    public static EmbedBuilder sendPlayMessage(AudioTrackInfo trackInfo, String url, int queueSize, Member theUser){
+    public static EmbedBuilder sendPlayMessage(AudioTrackInfo trackInfo, String url, int queueSize, Member theUser, boolean newTrack){
 
         builder.clear();
-        String format = "";
+        String format = "Now Playing";
 
-        if (queueSize == 0){
-
-            format = "Now Playing";
-        }else {
+        if (queueSize != 0 && !newTrack){
 
             format = "Added to Queue";
         }
@@ -97,7 +94,7 @@ public class PlayerManager {
             evt.getChannel().sendMessageEmbeds(builder.build()).queue();
             evt.getChannel().sendMessageEmbeds(sendPlayMessage(manager.audioPlayer.getPlayingTrack().getInfo(),
                     manager.audioPlayer.getPlayingTrack().getIdentifier(), manager.scheduler.getQueueSize(),
-                    evt.getMember()).build()).queue();
+                    evt.getMember(), false).build()).queue();
         }
 
 
@@ -125,7 +122,7 @@ public class PlayerManager {
                 musicManager.scheduler.queue(audioTrack);
 
                 channel.sendMessageEmbeds(sendPlayMessage(audioTrack.getInfo(),audioTrack.getIdentifier(),
-                        musicManager.scheduler.getQueueSize(), theUser).build()).queue();
+                        musicManager.scheduler.getQueueSize(), theUser, false).build()).queue();
             }
 
             @Override
