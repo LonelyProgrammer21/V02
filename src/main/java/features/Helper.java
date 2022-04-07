@@ -20,7 +20,7 @@ public class Helper {
 
     public static EmbedBuilder sendHelp(@NotNull String type){
         embedBuilder.clear();
-        if (!"help".equals(type.toLowerCase())) {
+        if (!"help".equalsIgnoreCase(type)) {
             return embedBuilder;
         }
         embedBuilder.setTitle("V02 Commands");
@@ -118,9 +118,10 @@ public class Helper {
             case "createcategory" -> {
 
                 embedBuilder.setTitle("Help | Create Category");
-                embedBuilder.setDescription("Make a category with options on a server.\nBy default" +
-                        " the category is set to private mode.\nNote: This action require" +
-                        " the author have a permission to create category and manage roles.");
+                embedBuilder.setDescription("""
+                        Make a category with options on a server.
+                        By default the category is set to private mode.
+                        Note: This action require the author have a permission to create category and manage roles.""");
                 embedBuilder.addField("Syntax","v! createcategory CategoryName\nNote: CategoryName should not have" +
                         " spaces.",false);
                 embedBuilder.addField("Example making a category and move text-channels to it", "v! create" +

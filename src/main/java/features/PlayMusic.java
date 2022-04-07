@@ -1,6 +1,6 @@
 package features;
 
-import features.MusicPlayer.PlayerManager;
+import features.musicplayer.PlayerManager;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -25,15 +25,16 @@ public class PlayMusic {
 
     public static void getCommand(@NotNull String command, MessageReceivedEvent guildEvent, ArrayList<String> tokens){
         event = guildEvent;
+        PlayerManager.event = guildEvent;
         initValues();
-        String title = "";
+        StringBuilder title = new StringBuilder();
         for (String data: tokens) {
-            title += " " + data;
+            title.append(" ").append(data);
         }
-        title = title.trim();
+        title = new StringBuilder(title.toString().trim());
         switch (command.toLowerCase()) {
             case "join" -> joinCommand();
-            case "play" -> playCommand(title);
+            case "play" -> playCommand(title.toString());
             case "stop" -> stopCommand();
             case "skip" -> skipCommand();
         }
@@ -45,6 +46,7 @@ public class PlayMusic {
         self = event.getGuild().getSelfMember();
         selfVoiceState = self.getVoiceState();
         theUser = event.getMember();
+        //noinspection ConstantConditions
         memberVoiceState = theUser.getVoiceState();
         audioManager = event.getGuild().getAudioManager();
         memberChannel = memberVoiceState.getChannel();
@@ -72,6 +74,7 @@ public class PlayMusic {
 
     private static boolean canAccessVoiceChannel(){
 
+        //noinspection ConstantConditions
         if(!self.hasPermission(memberVoiceState.getChannel(), Permission.VOICE_CONNECT)){
 
             channel.sendMessage("I dont have permission to connect to your voice channel").queue();
@@ -121,6 +124,7 @@ public class PlayMusic {
         }
         if(isMemberOnVoiceChannel()){
 
+            //noinspection ConstantConditions
             if(!selfVoiceState.getChannel().equals(memberVoiceState.getChannel())){
 
                 event.getChannel().sendMessage("Please join to the channel where i was joined to make this work.").queue();

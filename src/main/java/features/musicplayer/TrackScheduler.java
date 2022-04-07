@@ -1,4 +1,4 @@
-package features.MusicPlayer;
+package features.musicplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;

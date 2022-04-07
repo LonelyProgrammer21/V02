@@ -1,4 +1,4 @@
-package features.MusicPlayer;
+package features.musicplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
@@ -26,7 +26,7 @@ public class PlayerManager {
     private static PlayerManager INSTANCE;
     private final Map<Long, GuildMusicManager> musicManagers;
     private final AudioPlayerManager audioPlayerManager;
-    private static EmbedBuilder builder = new EmbedBuilder();
+    private static final EmbedBuilder builder = new EmbedBuilder();
     public static MessageReceivedEvent event;
     public PlayerManager(){
 

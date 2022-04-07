@@ -10,7 +10,6 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import java.util.*;
-import java.util.List;
 
 public final class MessageListener extends ListenerAdapter {
 
@@ -111,7 +110,7 @@ public final class MessageListener extends ListenerAdapter {
                     System.out.println(type);
                     if(textInput.size() == 3 && textInput.get(2).equalsIgnoreCase("help")){
 
-                        Helper.guildLocale = messageEvents.getMember().getGuild().getLocale();
+                        Helper.guildLocale = Objects.requireNonNull(messageEvents.getMember()).getGuild().getLocale();
                         messageEvents.getChannel().sendMessageEmbeds(Helper.sendModerationCommandHelp(command).build()).queue();
                         return;
                     }

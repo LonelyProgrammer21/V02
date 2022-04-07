@@ -6,7 +6,7 @@ public class CredentialRetriever {
     public static String V01 = "";
     public static String OURGUILDID = "";
 
-    private static void getEnv() throws Exception{
+    private static void getEnv() {
 
             V01 = System.getenv("V01");
             OURGUILDID = System.getenv("OURGUILDID");
