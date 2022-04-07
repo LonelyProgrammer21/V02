@@ -27,6 +27,7 @@ public class PlayerManager {
     private final Map<Long, GuildMusicManager> musicManagers;
     private final AudioPlayerManager audioPlayerManager;
     private static EmbedBuilder builder = new EmbedBuilder();
+    public static MessageReceivedEvent event;
     public PlayerManager(){
 
         this.musicManagers = new HashMap<>();
@@ -139,6 +140,11 @@ public class PlayerManager {
 
             @Override
             public void loadFailed(FriendlyException e) {
+
+                builder.clear();
+                builder.setDescription("Error Occurred. (×﹏×) Here is the message: "+ e.getMessage());
+                builder.setColor(COLORS[Computations.generateIndex(COLORS.length-1)]);
+                event.getChannel().sendMessageEmbeds(builder.build()).queue();
 
             }
         });
