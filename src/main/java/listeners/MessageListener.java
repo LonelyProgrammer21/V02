@@ -70,7 +70,7 @@ public final class MessageListener extends ListenerAdapter {
     }
 
     private void parsedCommand(String command){
-
+        command = command.toLowerCase().trim();
         guildActions = messageEvents.getGuild();
         Member messageAuthor = guildActions.retrieveMember(messageEvents.getAuthor()).complete();
 
