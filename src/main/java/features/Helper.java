@@ -54,16 +54,16 @@ public class Helper {
                 embedBuilder.addField("Commands", "v! ban @User @User1 .. -reason message (optional)", false);
                 embedBuilder.addField("Examples", "v! ban @NullPointerException @V01\n!v ban @NullPointerException @VO2 -reason message", false);
                 embedBuilder.setThumbnail("https://e7.pngegg.com/pngimages/250/966/png-clipart-jinwan-district-judge-court-trial-law-hammer-icon-angle-painted.png");
-                embedBuilder.setFooter(String.format("Date: %s %s", ConstantValues.MONTHS[time.get(Calendar.MONTH)],
-                        new SimpleDateFormat("dd HH:m:ss a", guildLocale).format(new Date())));
+                embedBuilder.setFooter(String.format("Date: %s ", ConstantValues.MONTHS[time.get(Calendar.MONTH)])+
+                        new SimpleDateFormat("dd hh:ss:ss a").format(new Date()));
             }
             case "makeinvite" -> {
                 embedBuilder.setTitle("Help | Invitation Links");
                 embedBuilder.setColor(COLORS[Computations.generateIndex(COLORS.length - 1)]);
                 embedBuilder.addField("Description", "Make an invitation to this server.", false);
                 embedBuilder.setThumbnail("https://cdn-icons-png.flaticon.com/512/3128/3128605.png");
-                embedBuilder.setFooter(String.format("Date: %s %s", ConstantValues.MONTHS[time.get(Calendar.MONTH)],
-                        new SimpleDateFormat("dd HH:m:ss a", guildLocale).format(new Date())));
+                embedBuilder.setFooter(String.format("Date: %s ", ConstantValues.MONTHS[time.get(Calendar.MONTH)])+
+                        new SimpleDateFormat("dd hh:ss:ss a").format(new Date()));
             }
             case "maketextchannel" -> {
 
@@ -76,8 +76,8 @@ public class Helper {
                         if the channel is private).""",false);
                 embedBuilder.addField("Example making a public channel:", "v! maketextchannel channelName",true);
                 embedBuilder.addField("Second Example making a private channel:", "v! makechannel channelName private @roleName/@member",false);
-                embedBuilder.setFooter(String.format("Date: %s %s", ConstantValues.MONTHS[time.get(Calendar.MONTH)],
-                        new SimpleDateFormat("dd HH:m:ss a", guildLocale).format(new Date())));
+                embedBuilder.setFooter(String.format("Date: %s ", ConstantValues.MONTHS[time.get(Calendar.MONTH)])+
+                        new SimpleDateFormat("dd hh:ss:ss a").format(new Date()));
             }
             case "modifyrole" -> {
 
@@ -89,8 +89,8 @@ public class Helper {
                 embedBuilder.addField("Example giving role to a specific role:", "v! modifyrole @roleNameOne @roleNameTwo",false);
                 embedBuilder.setThumbnail("https://img.icons8.com/ios-filled/344/change-user-male.png");
                 embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(ConstantValues.COLORS.length-1)]);
-                embedBuilder.setFooter(String.format("Date: %s %s", ConstantValues.MONTHS[time.get(Calendar.MONTH)],
-                        new SimpleDateFormat("dd HH:m:ss a", guildLocale).format(new Date())));
+                embedBuilder.setFooter(String.format("Date: %s ", ConstantValues.MONTHS[time.get(Calendar.MONTH)])+
+                        new SimpleDateFormat("dd hh:ss:ss a").format(new Date()));
             }
             case "makerole" -> {
                 embedBuilder.setTitle("Help | Making Roles");
@@ -100,8 +100,8 @@ public class Helper {
                 embedBuilder.setThumbnail("https://img.freepik.com/free-vector/responsibility-sticker-professional-roles-icon-" +
                         "functions-responsibilities-duties-professional-member-idea-employer-employee-circle-worker-vector-isolated" +
                         "-background-eps-10_399089-2686.jpg?size=338&ext=jpg");
-                embedBuilder.setFooter(String.format("Date: %s %s", ConstantValues.MONTHS[time.get(Calendar.MONTH)],
-                        new SimpleDateFormat("dd HH:m:ss a", guildLocale).format(new Date())));
+                embedBuilder.setFooter(String.format("Date: %s ", ConstantValues.MONTHS[time.get(Calendar.MONTH)])+
+                        new SimpleDateFormat("dd hh:ss:ss a").format(new Date()));
             }
             case "removerole" -> {
 
@@ -112,8 +112,8 @@ public class Helper {
                 embedBuilder.addField("Example removing role to an another role", "!v removerole @subjectedRole @role1 @role2",false);
                 embedBuilder.setThumbnail("https://img.icons8.com/ios-filled/344/remove-user-male.png");
                 embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(ConstantValues.COLORS.length-1)]);
-                embedBuilder.setFooter(String.format("Date: %s %s", ConstantValues.MONTHS[time.get(Calendar.MONTH)],
-                        new SimpleDateFormat("dd HH:m:ss a", guildLocale).format(new Date())));
+                embedBuilder.setFooter(String.format("Date: %s ", ConstantValues.MONTHS[time.get(Calendar.MONTH)])+
+                        new SimpleDateFormat("dd hh:ss:ss a").format(new Date()));
             }
             case "createcategory" -> {
 
@@ -130,8 +130,8 @@ public class Helper {
                         "createcategory CategoryName @Role @member", false);
                 embedBuilder.setThumbnail("https://img.icons8.com/ios-glyphs/344/category.png");
                 embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(COLORS.length-1)]);
-                embedBuilder.setFooter(String.format("Date: %s %s", ConstantValues.MONTHS[time.get(Calendar.MONTH)],
-                        new SimpleDateFormat("dd HH:m:ss a", guildLocale).format(new Date())));
+                embedBuilder.setFooter(String.format("Date: %s ", ConstantValues.MONTHS[time.get(Calendar.MONTH)])+
+                        new SimpleDateFormat("dd hh:ss:ss a").format(new Date()));
             }
 
             case "modifytextchannelroles" -> {
@@ -143,8 +143,8 @@ public class Helper {
                 embedBuilder.addField("Example modifying roles on text channel.",
                         "v! modifytextchannelroles #text-channel @role",false);
                 embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(COLORS.length-1)]);
-                embedBuilder.setFooter(String.format("Date: %s %s", ConstantValues.MONTHS[time.get(Calendar.MONTH)],
-                        new SimpleDateFormat("dd HH:m:ss a", guildLocale).format(new Date())));
+                embedBuilder.setFooter(String.format("Date: %s ", ConstantValues.MONTHS[time.get(Calendar.MONTH)])+
+                        new SimpleDateFormat("dd hh:ss:ss a").format(new Date()));
             }
         }
         return embedBuilder;
@@ -162,8 +162,8 @@ public class Helper {
                 embedBuilder.addField("Syntax","v! join\nNote: The user should be in a voice channel " +
                         "and the bot is not on other voice channel to make it work",false);
                 embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(COLORS.length-1)]);
-                embedBuilder.setFooter(String.format("Date: %s %s", ConstantValues.MONTHS[time.get(Calendar.MONTH)],
-                        new SimpleDateFormat("dd HH:m:ss a", guildLocale).format(new Date())));
+                embedBuilder.setFooter(String.format("Date: %s ", ConstantValues.MONTHS[time.get(Calendar.MONTH)])+
+                        new SimpleDateFormat("dd hh:ss:ss a").format(new Date()));
             }
             case "play" -> {
 
@@ -172,8 +172,8 @@ public class Helper {
                 embedBuilder.addField("Syntax","v! play URL/name\nNote: The user should be in a voice channel " +
                         "and the bot is not on other voice channel to make it work",false);
                 embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(COLORS.length-1)]);
-                embedBuilder.setFooter(String.format("Date: %s %s", ConstantValues.MONTHS[time.get(Calendar.MONTH)],
-                        new SimpleDateFormat("dd HH:m:ss a", guildLocale).format(new Date())));
+                embedBuilder.setFooter(String.format("Date: %s ", ConstantValues.MONTHS[time.get(Calendar.MONTH)])+
+                        new SimpleDateFormat("dd hh:ss:ss a").format(new Date()));
 
             }
         }
