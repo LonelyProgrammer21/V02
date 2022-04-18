@@ -1,21 +1,25 @@
 package features;
 
+import features.constant.ConstantValues;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.util.EnumSet;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Objects;
+
+import static features.Helper.time;
 import static features.constant.ConstantValues.COLORS;
 
 public class Moderation {
 
     public static ArrayList<String> textInput;
     public static MessageReceivedEvent messageEvents;
+    private static final EmbedBuilder embedBuilder = new EmbedBuilder();
     public static Guild guildActions;
     public static List<Member> mentionedMembers;
     public static Member messageAuthor;
@@ -151,51 +155,69 @@ public class Moderation {
         return true;
     }
 
+    private static EmbedBuilder getEmbedBuilder(String message){
+        embedBuilder.clear();
+
+        embedBuilder.setDescription(message);
+        embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(COLORS.length-1)]);
+        embedBuilder.setFooter(String.format("Date: %s ", ConstantValues.MONTHS[time.get(Calendar.MONTH)])+
+                new SimpleDateFormat("dd hh:ss:ss a").format(new Date()));
+        return  embedBuilder;
+    }
+
     public static void modifyRole(){
 
         if(messageAuthor.hasPermission(Permission.MANAGE_ROLES)){
 
-            if(textInput.get(2).equalsIgnoreCase("help")){
+            try {
+                if(textInput.get(2).equalsIgnoreCase("help")){
 
-                messageEvents.getChannel().sendMessageEmbeds(Helper.sendModerationCommandHelp("modifyrole").build()).queue();
-                return;
-            }
-            if(!messageEvents.getMessage().getMentionedRoles().isEmpty()){
-                subjectedRole = messageEvents.getMessage().getMentionedRoles().get(0);
+                    messageEvents.getChannel().sendMessageEmbeds(Helper.sendModerationCommandHelp("modifyrole").build()).queue();
+                    return;
+                }
+                if(!messageEvents.getMessage().getMentionedRoles().isEmpty()){
+                    subjectedRole = messageEvents.getMessage().getMentionedRoles().get(0);
 
-                if(!messageEvents.getMessage().getMentionedMembers().isEmpty()){
+                    if(!messageEvents.getMessage().getMentionedMembers().isEmpty()){
 
-                    mentionedMembers = messageEvents.getMessage().getMentionedMembers();
-                    for(Member member:mentionedMembers){
+                        mentionedMembers = messageEvents.getMessage().getMentionedMembers();
+                        for(Member member:mentionedMembers){
 
-                        guildActions.addRoleToMember(member,subjectedRole).queue();
-                    }
-                    messageEvents.getChannel().sendMessage("Members is added to the role.").queue();
-                }else {
-                    if(!messageEvents.getMessage().getMentionedRoles().isEmpty()){
+                            guildActions.addRoleToMember(member,subjectedRole).queue();
+                        }
+                        messageEvents.getChannel().sendMessageEmbeds(getEmbedBuilder("Role is added to member(s)").build()).queue();
+                    }else {
+                        if(!messageEvents.getMessage().getMentionedRoles().isEmpty()){
 
-                        Role mentionedRole = messageEvents.getMessage().getMentionedRoles().get(1);
+                            Role mentionedRole = messageEvents.getMessage().getMentionedRoles().get(1);
 
-                        for(Member member: guildActions.getMembers()){
+                            for(Member member: guildActions.getMembers()){
 
-                            for(Role memberRole : member.getRoles()){
+                                for(Role memberRole : member.getRoles()){
 
-                                if(memberRole.getName().equalsIgnoreCase(mentionedRole.getName())){
+                                    if(memberRole.getName().equalsIgnoreCase(mentionedRole.getName())){
 
-                                    guildActions.addRoleToMember(member,subjectedRole).queue();
+                                        guildActions.addRoleToMember(member,subjectedRole).queue();
+                                    }
                                 }
                             }
+                            messageEvents.getChannel()
+                                    .sendMessageEmbeds(getEmbedBuilder("Adding roles queuing...").build()).queue();
+                        }else {
+                            messageEvents.getChannel()
+                                    .sendMessageEmbeds(getEmbedBuilder("Specify the options for the role.").build()).queue();
                         }
-                        messageEvents.getChannel().sendMessage("A role is added to another role").queue();
-                    }else {
-                        messageEvents.getChannel().sendMessage("Specify the options for the role.").queue();
                     }
                 }
+
+
+            }catch (Exception e){
+                messageEvents.getChannel().sendMessageEmbeds(Helper.sendModerationCommandHelp("modifyrole").build()).queue();
             }
 
         }else {
 
-            messageEvents.getChannel().sendMessage("You dont have permission to make a role.").queue();
+            messageEvents.getChannel().sendMessageEmbeds(getEmbedBuilder("You dont have permission to make a role.").build()).queue();
         }
 
 
@@ -216,12 +238,14 @@ public class Moderation {
                 return;
             }
             if(!messageAuthor.hasPermission(Permission.MANAGE_CHANNEL)){
-                messageEvents.getChannel().sendMessage("You dont have permission to create text-channels.").queue();
+                messageEvents.getChannel()
+                        .sendMessageEmbeds(getEmbedBuilder("You dont have permission to create text-channels.").build()).queue();
                 return;
             }
             if(checkCurrentGuildInfo(textInput.subList(textInput.indexOf("maketextchannel")+1,textInput.size()),"maketextchannel")){
 
-                messageEvents.getChannel().sendMessage("Some channels are already existed. Remove it and try again.").queue();
+                messageEvents.getChannel()
+                        .sendMessageEmbeds(getEmbedBuilder("Some channels are already existed. Remove it and try again.").build()).queue();
                 return;
             }
 
@@ -230,7 +254,8 @@ public class Moderation {
 
                     theChannel.createPermissionOverride(messageEvents.getGuild().getPublicRole()).setDeny(Permission.VIEW_CHANNEL).queue();
                     if(mentionedRoles.isEmpty() && mentionedMembers.isEmpty()){
-                        messageEvents.getChannel().sendMessage("Specify the role or members to be added if the text channel is private.").queue();
+                        messageEvents.getChannel()
+                                .sendMessageEmbeds(getEmbedBuilder("Specify the role or members to be added if the text channel is private.").build()).queue();
                         return;
                     }
                     if(!mentionedRoles.isEmpty()){
@@ -248,7 +273,7 @@ public class Moderation {
                         }
                     }
                 }
-            messageEvents.getChannel().sendMessage("The channels is now created!").queue();
+            messageEvents.getChannel().sendMessageEmbeds(getEmbedBuilder("Channels is now created!").build()).queue();
         }
     }
 
@@ -265,7 +290,8 @@ public class Moderation {
 
                 if(checkCurrentGuildInfo(textInput.subList(textInput.indexOf("makerole")+1,textInput.size()), "makerole")){
 
-                    messageEvents.getChannel().sendMessage("Some roles are already existed. Remove it and try again.").queue();
+                    messageEvents.getChannel().
+                            sendMessageEmbeds(getEmbedBuilder("Some roles are already existed. Remove it and try again.").build()).queue();
                     return;
                 }
                 for(String roleNames : textInput.subList(textInput.indexOf("makerole")+1,textInput.size())){
@@ -275,10 +301,11 @@ public class Moderation {
 
                 }
 
-                messageEvents.getChannel().sendMessage("Done!").queue();
+                messageEvents.getChannel().sendMessageEmbeds(getEmbedBuilder("Done queuing...").build()).queue();
             }
         }else {
-            messageEvents.getChannel().sendMessage("You dont have permissions to create roles.").queue();
+            messageEvents.getChannel().
+                    sendMessageEmbeds(getEmbedBuilder("You dont have permissions to create roles.").build()).queue();
         }
 }
 
@@ -289,17 +316,20 @@ public static void removeRole(){
 
         if(textInput.get(2).equalsIgnoreCase("help")){
 
-            messageEvents.getChannel().sendMessageEmbeds(Helper.sendModerationCommandHelp("removerole").build()).queue();
+            messageEvents.getChannel().
+                    sendMessageEmbeds(Helper.sendModerationCommandHelp("removerole").build()).queue();
             return;
         }
         if(!messageAuthor.hasPermission(Permission.MANAGE_ROLES)){
 
-            messageEvents.getChannel().sendMessage("You dont have permission to use this command.").queue();
+            messageEvents.getChannel().
+                    sendMessageEmbeds(getEmbedBuilder("You dont have permission to use this command.").build()).queue();
             return;
         }
         if(roleList.isEmpty() && memberList.isEmpty()){
 
-            messageEvents.getChannel().sendMessage("Specify the role/member to be remove.").queue();
+            messageEvents.getChannel().
+                    sendMessageEmbeds(getEmbedBuilder("Specify the role/member to be remove.").build()).queue();
             return;
         }
         subjectedRole = roleList.get(0);
@@ -322,7 +352,7 @@ public static void removeRole(){
                 }
             }
         }
-        messageEvents.getChannel().sendMessage("Done!").queue();
+        messageEvents.getChannel().sendMessageEmbeds(getEmbedBuilder("Done!").build()).queue();
 
 }
 
