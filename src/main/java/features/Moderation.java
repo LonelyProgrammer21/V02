@@ -65,47 +65,56 @@ public class Moderation {
 
     public static void makeCategory(){
 
-        if(textInput.get(2).equalsIgnoreCase("help")){
+        String message = "Queuing please wait...";
+        try {
+            if(textInput.get(2).equalsIgnoreCase("help")){
+
+                throw new Exception();
+            }
+            if(!messageAuthor.hasPermission(Permission.MANAGE_PERMISSIONS) && !messageAuthor.hasPermission(Permission.MANAGE_ROLES)){
+
+                messageEvents.getChannel().sendMessage("You don't have permission to create category.").queue();
+                return;
+            }
+            Role publicRole = guildActions.getPublicRole();
+            String categoryName = textInput.get(2).trim();
+            Category newCategory = guildActions.createCategory(categoryName).addRolePermissionOverride(publicRole.getIdLong(),
+                    Permission.MESSAGE_SEND.getRawValue(), Permission.VIEW_CHANNEL.getRawValue()).complete();
+
+            if(!messageEvents.getMessage().getMentionedChannels().isEmpty()){
+
+                List<TextChannel> mentionedChannels = messageEvents.getMessage().getMentionedChannels();
+                for(TextChannel channel : mentionedChannels){
+
+                    channel.getManager().setParent(newCategory).queue();
+                }
+            }
+
+            if(!messageEvents.getMessage().getMentionedMembers().isEmpty()) {
+
+                for(Member member : messageEvents.getMessage().getMentionedMembers()){
+
+                    newCategory.getManager().putMemberPermissionOverride(member.getIdLong(),allowed,denied).queue();
+                }
+            }
+
+            if(!messageEvents.getMessage().getMentionedRoles().isEmpty()){
+
+                for(Role role : messageEvents.getMessage().getMentionedRoles()){
+
+                    newCategory.getManager().putRolePermissionOverride(role.getIdLong(),allowed,denied).queue();
+                }
+            }
+            if(textInput.size() == 3){
+                message = "Done! created: "+ categoryName;
+            }
+
+            messageEvents.getChannel().sendMessageEmbeds(getEmbedBuilder(message).build()).queue();
+        }catch (Exception e){
 
             messageEvents.getChannel().sendMessageEmbeds(Helper.sendModerationCommandHelp("createcategory").build()).queue();
-            return;
-        }
-        if(!messageAuthor.hasPermission(Permission.MANAGE_PERMISSIONS) && !messageAuthor.hasPermission(Permission.MANAGE_ROLES)){
-
-            messageEvents.getChannel().sendMessage("You don't have permission to create category.").queue();
-            return;
-        }
-        Role publicRole = guildActions.getPublicRole();
-        String categoryName = textInput.get(2).trim();
-        Category newCategory = guildActions.createCategory(categoryName).addRolePermissionOverride(publicRole.getIdLong(),
-                Permission.MESSAGE_SEND.getRawValue(), Permission.VIEW_CHANNEL.getRawValue()).complete();
-
-        if(!messageEvents.getMessage().getMentionedChannels().isEmpty()){
-
-            List<TextChannel> mentionedChannels = messageEvents.getMessage().getMentionedChannels();
-            for(TextChannel channel : mentionedChannels){
-
-                channel.getManager().setParent(newCategory).queue();
-            }
         }
 
-        if(!messageEvents.getMessage().getMentionedMembers().isEmpty()) {
-
-            for(Member member : messageEvents.getMessage().getMentionedMembers()){
-
-                newCategory.getManager().putMemberPermissionOverride(member.getIdLong(),allowed,denied).queue();
-            }
-        }
-
-        if(!messageEvents.getMessage().getMentionedRoles().isEmpty()){
-
-            for(Role role : messageEvents.getMessage().getMentionedRoles()){
-
-                newCategory.getManager().putRolePermissionOverride(role.getIdLong(),allowed,denied).queue();
-            }
-        }
-
-        messageEvents.getChannel().sendMessage("Done!").queue();
 
     }
 
