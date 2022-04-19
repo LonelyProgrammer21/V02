@@ -128,11 +128,11 @@ public class Fun {
                         "features but well construct manner to do things. OwO", false);
                 embedBuilder.addField("Bot abilities:", """
                         Discord Moderation
-                        Playing music (Not Implemented yet)
+                        Playing music
                         Displaying info
                         Math computations (Not Implemented yet)
                         and More!""", false);
-                embedBuilder.addField("Created by", "$USER (lonelyprogrammer)",false);
+                embedBuilder.addField("Created by", "NAX",false);
                 embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(ConstantValues.COLORS.length-1)]);
                 embedBuilder.setThumbnail("https://cdn.discordapp.com/avatars/711786745276137585/47567130960e1b2c5594ba13cb314e3c.png");
                 embedBuilder.setFooter(String.format("Date: %s %d %d Time: %d:%d:%d", ConstantValues.MONTHS[time.get(Calendar.MONTH)], time.get(Calendar.DATE),
@@ -157,7 +157,7 @@ public class Fun {
 
                 embedBuilder.setTitle("Avatar | "+ member.getEffectiveName());
                 embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(ConstantValues.COLORS.length-1)]);
-                embedBuilder.setImage(member.getEffectiveAvatarUrl());
+                embedBuilder.setImage(member.getEffectiveAvatarUrl()+"?size=1024");
                 embedBuilder.setFooter(String.format("Date: %s %d %d Time: %d:%d:%d", ConstantValues.MONTHS[time.get(Calendar.MONTH)], time.get(Calendar.DATE),
                         time.get(Calendar.YEAR),
                         time.get(Calendar.HOUR), time.get(Calendar.MINUTE), time.get(Calendar.SECOND)));
