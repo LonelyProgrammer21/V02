@@ -2,17 +2,17 @@ package features;
 
 import features.constant.ConstantValues;
 import features.constant.CredentialRetriever;
+import features.constant.Tenor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class Fun {
 
@@ -21,8 +21,10 @@ public class Fun {
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM:dd:yyyy");
     private static final String VO1 = CredentialRetriever.V01;
 
+    private static final String TENOR_TOKEN = "";
     public static EmbedBuilder makeFunTemplate(@NotNull String type, Member v, List<Member> memberList){
 
+        Tenor.setAPIKey(TENOR_TOKEN);
         Member mentioned = null;
         if(!memberList.isEmpty()){
 
@@ -31,68 +33,73 @@ public class Fun {
         embedBuilder.clear();
         int lastindex;
 
-            switch (type){
+            try {
 
-                case "blood"->{
+                String url;
+                switch (type){
 
-                    if(v.getId().equalsIgnoreCase(VO1)){
+                    case "blood"->{
 
-                        lastindex = Computations.generateIndex(ConstantValues.ANGRYEMOTE.length-1);
+                        if(v.getId().equalsIgnoreCase(VO1)){
 
-                        embedBuilder.setTitle(ConstantValues.ANGRYEMOTE[lastindex]);
-                        lastindex = Computations.generateIndex(ConstantValues.BLOODGIFS.length-1);
+                            lastindex = Computations.generateIndex(ConstantValues.ANGRYEMOTE.length-1);
+                            embedBuilder.setDescription(ConstantValues.ANGRYEMOTE[lastindex]);
+                            url = Tenor.returnRandomGIF("blood-anime", 50);
+                            embedBuilder.setImage(url);
+                            embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(ConstantValues.COLORS.length-1)]);
+                        }else {
 
-                        embedBuilder.setImage(ConstantValues.BLOODGIFS[lastindex]);
+                            embedBuilder.setTitle("Insufficient Permission.");
+                            embedBuilder.addField("Only one person can use this command. "+ ConstantValues.
+                                    HAPPYEMOTE[Computations.generateIndex(ConstantValues.HAPPYEMOTE.length-1)], "",true);
+                        }
+
+                    }
+                    case "hug" -> {
+
+                        lastindex = Computations.generateIndex(ConstantValues.HAPPYEMOTE.length-1);
+
+                        embedBuilder.setDescription(mentioned == null ? ConstantValues.HAPPYEMOTE[lastindex]:
+                                v.getEffectiveName() + " Hugs " + mentioned.getEffectiveName());
+                        url = Tenor.returnRandomGIF("hug-anime", 50);
+                        embedBuilder.setImage(url);
                         embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(ConstantValues.COLORS.length-1)]);
-                    }else {
 
-                        embedBuilder.setTitle("Insufficient Permission.");
-                        embedBuilder.addField("Only one person can use this command. "+ ConstantValues.
-                                HAPPYEMOTE[Computations.generateIndex(ConstantValues.HAPPYEMOTE.length-1)], "",true);
+                    }
+
+                    case "kiss" -> {
+
+                        lastindex = Computations.generateIndex(ConstantValues.KISSEMOTE.length-1);
+                        embedBuilder.setDescription(mentioned == null ? ConstantValues.KISSEMOTE[lastindex] :
+                                v.getEffectiveName() + " Kiss " + mentioned.getEffectiveName());
+                        url = Tenor.returnRandomGIF("kiss-anime", 50);
+                        embedBuilder.setImage(url);
+
+                        embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(ConstantValues.COLORS.length-1)]);
+
+                    }
+
+                    case "cheer" -> {
+
+                        lastindex = Computations.generateIndex(ConstantValues.CHEERINGEMOTE.length-1);
+                        embedBuilder.setDescription(mentioned == null ? ConstantValues.CHEERINGEMOTE[lastindex] :
+                                v.getEffectiveName() + " Cheer's " + mentioned.getEffectiveName());
+                        url = Tenor.returnRandomGIF("cheer-anime", 50);
+                        embedBuilder.setImage(url);
+
+                        embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(ConstantValues.COLORS.length-1)]);
+
                     }
 
                 }
-                case "hug" -> {
 
-                    lastindex = Computations.generateIndex(ConstantValues.HAPPYEMOTE.length-1);
-
-                    embedBuilder.setTitle(mentioned == null ? ConstantValues.HAPPYEMOTE[lastindex]:
-                            v.getEffectiveName() + " Hugs " + mentioned.getEffectiveName());
-
-                    lastindex = Computations.generateIndex(ConstantValues.HUGGIFS.length-1);
-                    embedBuilder.setImage(ConstantValues.HUGGIFS[lastindex]);
-                    embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(ConstantValues.COLORS.length-1)]);
-
-                }
-
-                case "kiss" -> {
-
-                    lastindex = Computations.generateIndex(ConstantValues.KISSEMOTE.length-1);
-                    embedBuilder.setTitle(mentioned == null ? ConstantValues.KISSEMOTE[lastindex] :
-                            v.getEffectiveName() + " Kiss " + mentioned.getEffectiveName());
-                    lastindex = Computations.generateIndex(ConstantValues.KISSGIFS.length-1);
-                    embedBuilder.setImage(ConstantValues.KISSGIFS[lastindex]);
-
-                    embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(ConstantValues.COLORS.length-1)]);
-
-                }
-
-                case "cheer" -> {
-
-                    lastindex = Computations.generateIndex(ConstantValues.CHEERINGEMOTE.length-1);
-                    embedBuilder.setTitle(mentioned == null ? ConstantValues.CHEERINGEMOTE[lastindex] :
-                            v.getEffectiveName() + " Cheer's " + mentioned.getEffectiveName());
-                    lastindex = Computations.generateIndex(ConstantValues.CHEERINGGIF.length-1);
-                    embedBuilder.setImage(ConstantValues.CHEERINGGIF[lastindex]);
-
-                    embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(ConstantValues.COLORS.length-1)]);
-
-                }
+            }catch (Exception ignored){
 
             }
 
         return embedBuilder;
     }
+
 
     public static EmbedBuilder makeOutputTemplate(String type, @NotNull MessageReceivedEvent messageEvents){
 
