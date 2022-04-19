@@ -175,6 +175,7 @@ public class Moderation {
                     messageEvents.getChannel().sendMessageEmbeds(Helper.sendModerationCommandHelp("modifyrole").build()).queue();
                     return;
                 }
+
                 if(!messageEvents.getMessage().getMentionedRoles().isEmpty()){
                     subjectedRole = messageEvents.getMessage().getMentionedRoles().get(0);
 
@@ -191,15 +192,22 @@ public class Moderation {
 
                             Role mentionedRole = messageEvents.getMessage().getMentionedRoles().get(1);
 
-                            for(Member member: guildActions.getMembers()){
+                            if(!guildActions.getMembersWithRoles(mentionedRole).isEmpty()){
+                                for(Member member: guildActions.getMembers()){
 
-                                for(Role memberRole : member.getRoles()){
+                                    for(Role memberRole : member.getRoles()){
 
-                                    if(memberRole.getName().equalsIgnoreCase(mentionedRole.getName())){
+                                        if(memberRole.getName().equalsIgnoreCase(mentionedRole.getName())){
 
-                                        guildActions.addRoleToMember(member,subjectedRole).queue();
+                                            guildActions.addRoleToMember(member,subjectedRole).queue();
+                                        }
                                     }
                                 }
+                            }else {
+
+                                messageEvents.getChannel()
+                                        .sendMessageEmbeds(getEmbedBuilder("No members is found on this role.").build()).queue();
+                                return;
                             }
                             messageEvents.getChannel()
                                     .sendMessageEmbeds(getEmbedBuilder("Adding roles queuing...").build()).queue();
@@ -208,6 +216,9 @@ public class Moderation {
                                     .sendMessageEmbeds(getEmbedBuilder("Specify the options for the role.").build()).queue();
                         }
                     }
+                }else {
+
+                    throw new Exception();
                 }
 
 
