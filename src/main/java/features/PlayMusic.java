@@ -138,7 +138,7 @@ public class PlayMusic {
     private static void stopCommand(){
 
         if(checkStates())
-        PlayerManager.stop(event);
+            PlayerManager.stop(event);
     }
 
     private static void skipCommand(){
