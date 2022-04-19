@@ -21,7 +21,7 @@ public class Fun {
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM:dd:yyyy");
     private static final String VO1 = CredentialRetriever.V01;
 
-    private static final String TENOR_TOKEN = "";
+    private static final String TENOR_TOKEN = CredentialRetriever.TENOR_TOKEN;
     public static EmbedBuilder makeFunTemplate(@NotNull String type, Member v, List<Member> memberList){
 
         Tenor.setAPIKey(TENOR_TOKEN);
