@@ -88,7 +88,7 @@ public class PlayMusic {
 
             audioManager.openAudioConnection(memberChannel);
             if(!isJoined)
-            channel.sendMessageFormat("Connecting to \uD83D\uDD0A %s ", memberChannel.getName()).queue();
+                channel.sendMessageFormat("Connecting to \uD83D\uDD0A %s ", memberChannel.getName()).queue();
         }
         isJoined = false;
     }
