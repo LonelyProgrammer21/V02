@@ -26,6 +26,7 @@ public class Moderation {
     private static Role subjectedRole;
     private static final EnumSet<Permission> allowed = EnumSet.of(Permission.MESSAGE_SEND,Permission.VIEW_CHANNEL);
     private static final EnumSet<Permission> denied = EnumSet.of(Permission.CREATE_INSTANT_INVITE);
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
 
     public static void modifytextchannelroles(){
 
@@ -169,8 +170,7 @@ public class Moderation {
 
         embedBuilder.setDescription(message);
         embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(COLORS.length-1)]);
-        embedBuilder.setFooter(String.format("Date: %s ", ConstantValues.MONTHS[time.get(Calendar.MONTH)])+
-                new SimpleDateFormat("dd hh:ss:ss a").format(new Date()));
+        embedBuilder.setFooter(dateFormat.format(new Date()) + " UTC");
         return  embedBuilder;
     }
 
