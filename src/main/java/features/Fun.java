@@ -9,10 +9,10 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 public class Fun {
 
@@ -21,6 +21,7 @@ public class Fun {
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM:dd:yyyy");
     private static final String VO1 = CredentialRetriever.V01;
 
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
     private static final String TENOR_TOKEN = CredentialRetriever.TENOR_TOKEN;
     public static EmbedBuilder makeFunTemplate(@NotNull String type, Member v, List<Member> memberList){
 
@@ -103,6 +104,7 @@ public class Fun {
 
     public static EmbedBuilder makeOutputTemplate(String type, @NotNull MessageReceivedEvent messageEvents){
 
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         embedBuilder.clear();
         User mentioned = messageEvents.getAuthor();
         Guild guildActions = messageEvents.getGuild();
@@ -135,9 +137,7 @@ public class Fun {
                 embedBuilder.addField("Created by", "NAX",false);
                 embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(ConstantValues.COLORS.length-1)]);
                 embedBuilder.setThumbnail("https://cdn.discordapp.com/avatars/711786745276137585/47567130960e1b2c5594ba13cb314e3c.png");
-                embedBuilder.setFooter(String.format("Date: %s %d %d Time: %d:%d:%d", ConstantValues.MONTHS[time.get(Calendar.MONTH)], time.get(Calendar.DATE),
-                        time.get(Calendar.YEAR),
-                        time.get(Calendar.HOUR), time.get(Calendar.MINUTE), time.get(Calendar.SECOND)));
+                embedBuilder.setFooter(dateFormat.format(new Date()) + " UTC");
             }
             case "info" -> {
 
@@ -149,18 +149,14 @@ public class Fun {
                         , dateTimeFormatter.format(member.getTimeJoined()),dateTimeFormatter.format(member.getTimeCreated())),false);
                 embedBuilder.addField("Status:",String.format("%s", member.getOnlineStatus()), false);
                 embedBuilder.setThumbnail(mentioned.getAvatarUrl());
-                embedBuilder.setFooter(String.format("Date: %s %d %d Time: %d:%d:%d", ConstantValues.MONTHS[time.get(Calendar.MONTH)], time.get(Calendar.DATE),
-                        time.get(Calendar.YEAR),
-                        time.get(Calendar.HOUR), time.get(Calendar.MINUTE), time.get(Calendar.SECOND)));
+                embedBuilder.setFooter(dateFormat.format(new Date()) + " UTC");
             }
             case "avatar" -> {
 
                 embedBuilder.setTitle("Avatar | "+ member.getEffectiveName());
                 embedBuilder.setColor(ConstantValues.COLORS[Computations.generateIndex(ConstantValues.COLORS.length-1)]);
                 embedBuilder.setImage(member.getEffectiveAvatarUrl()+"?size=1024");
-                embedBuilder.setFooter(String.format("Date: %s %d %d Time: %d:%d:%d", ConstantValues.MONTHS[time.get(Calendar.MONTH)], time.get(Calendar.DATE),
-                        time.get(Calendar.YEAR),
-                        time.get(Calendar.HOUR), time.get(Calendar.MINUTE), time.get(Calendar.SECOND)));
+                embedBuilder.setFooter(dateFormat.format(new Date()) + " UTC");
             }
         }
         return embedBuilder;
