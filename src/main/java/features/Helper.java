@@ -29,7 +29,6 @@ public class Helper {
                 ban
                 makerole
                 invite
-                promote
                 modifyrole
                 removerole
                 createcategory

@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public final class ConstantValues {
 
-    public static final String[] MODERATIONCOMMANDS = {"ban","makerole","promote", "makeinvite", "modifyrole",
+    public static final String[] MODERATIONCOMMANDS = {"ban","makerole", "makeinvite", "modifyrole",
             "maketextchannel", "removerole","createcategory", "modifytextchannelroles"};
     public static final String[] COMMONCOMMANDS = {"info","version", "avatar"};
     public static final String[] REACTIONCOMMANDS = {"blood", "kiss", "cheer", "hug"};
@@ -20,8 +20,6 @@ public final class ConstantValues {
 
     public static final String[] CHEERINGEMOTE = {"✽-(ˆ▽ˆ)/✽ ✽\\(ˆ▽ˆ)-✽", "q(❂‿❂)p", "o((*^▽^*))o","⌒°(❛ᴗ❛)°⌒",
     "o(*^▽^*)o", "o(*>ω<*)o", "o(〃＾▽＾〃)o", "(/^▽^)/", "ヾ（〃＾∇＾）ﾉ♪"};
-
-
 
     public static final Color[] COLORS = {Color.CYAN, Color.RED, Color.BLUE, Color.WHITE, Color.DARK_GRAY,
             Color.MAGENTA, Color.YELLOW, Color.PINK, Color.GREEN, Color.ORANGE, Color.blue};
