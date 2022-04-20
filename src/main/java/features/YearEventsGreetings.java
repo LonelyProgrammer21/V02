@@ -4,13 +4,17 @@ import features.constant.ConstantValues;
 import features.constant.CredentialRetriever;
 import net.dv8tion.jda.api.entities.Member;
 import org.jetbrains.annotations.NotNull;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 public class YearEventsGreetings {
 
     private final String V01ID;
     private final HashMap <String,String> events = new HashMap<>();
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
 
     public YearEventsGreetings(){
 
@@ -27,7 +31,7 @@ public class YearEventsGreetings {
                 ANGRYEMOTE[Computations.generateIndex(ConstantValues.ANGRYEMOTE.length-1)];
         String emote = ConstantValues.HAPPYEMOTE[Computations.generateIndex(ConstantValues.HAPPYEMOTE.length-1)];
         String username = author.getEffectiveName();
-        String date = ConstantValues.MONTHS[Helper.time.get(Calendar.MONTH)]+" "+Helper.time.get(Calendar.DATE);
+        String date = dateFormat.format(new Date()) + " UTC";
 
         if(author.getId().equals(V01ID)){
             username = "V01";
