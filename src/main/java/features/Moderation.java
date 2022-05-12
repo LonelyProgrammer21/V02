@@ -1,6 +1,7 @@
 package features;
 
 import features.constant.ConstantValues;
+import features.constant.CredentialRetriever;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
@@ -26,7 +27,7 @@ public class Moderation {
     private static Role subjectedRole;
     private static final EnumSet<Permission> allowed = EnumSet.of(Permission.MESSAGE_SEND,Permission.VIEW_CHANNEL);
     private static final EnumSet<Permission> denied = EnumSet.of(Permission.CREATE_INSTANT_INVITE);
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
 
     public static void modifytextchannelroles(){
 
@@ -152,6 +153,35 @@ public class Moderation {
 
             messageEvents.getChannel().sendMessage("You don't have permission to use this command").queue();
         }
+
+    }
+
+    public static void autoModifyRole(Guild guild, Role toReplace, Role subjectedRole){
+
+       List<Member> memberList = guild.getMembersWithRoles(subjectedRole);
+
+       List<Role> roles = guild.getRoles();
+       for(Role role : roles){
+
+           if(!role.getName().contains("day"))
+               continue;
+           System.out.println(role.getName());
+
+           for (Member member : memberList){
+
+               if(member.getRoles().contains(role))
+                   guild.removeRoleFromMember(member, role).queue();
+           }
+
+       }
+
+       for(Member member: memberList){
+
+           guild.addRoleToMember(member, toReplace).queue();
+       }
+       TextChannel defaultChannel = guild.getTextChannelById(CredentialRetriever.DEFAULT_TEXT_CHANNEL);
+        assert defaultChannel != null;
+        defaultChannel.sendMessageEmbeds(getEmbedBuilder("Modifying roles automatically queueing...").build()).queue();
 
     }
     private static boolean canUserInteract(){

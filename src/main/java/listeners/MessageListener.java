@@ -5,6 +5,7 @@ import features.constant.ConstantValues;
 import features.constant.CredentialRetriever;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -66,7 +67,59 @@ public final class MessageListener extends ListenerAdapter {
     public void onReady(@NotNull ReadyEvent event){
 
         System.out.println("Ready to go!");
+        Timer timer = new Timer();
+        long perDay = 86400000;//Milliseconds conversion to 24 hours.
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
 
+                try {
+
+                    Calendar cal = Calendar.getInstance();
+                    int day = cal.get(Calendar.DAY_OF_WEEK);
+                    Guild guild = event.getJDA().getGuildById(CredentialRetriever.OURGUILDID);
+                    Role toReplace;
+                    Role subjectedRole = guild.getRoleById(CredentialRetriever.HACKERRIST);
+                    switch (day) {
+                        case 1 -> {
+                            toReplace = guild.getRolesByName("Assignment", true).get(0);
+                            Moderation.autoModifyRole(guild, toReplace, subjectedRole);
+                        }
+                        case 2 -> {
+                            toReplace = guild.getRolesByName("Monday", true).get(0);
+                            Moderation.autoModifyRole(guild, toReplace, subjectedRole);
+                        }
+                        case 3 -> {
+                            toReplace = guild.getRolesByName("Tuesday", true).get(0);
+                            Moderation.autoModifyRole(guild, toReplace, subjectedRole);
+                        }
+                        case 4 -> {
+                            toReplace = guild.getRolesByName("Wednesday", true).get(0);
+                            Moderation.autoModifyRole(guild, toReplace, subjectedRole);
+                        }
+                        case 5 -> {
+                            toReplace = guild.getRolesByName("Thursday", true).get(0);
+                            Moderation.autoModifyRole(guild, toReplace, subjectedRole);
+                        }
+                        case 6 -> {
+                            toReplace = guild.getRolesByName("Friday", true).get(0);
+                            Moderation.autoModifyRole(guild, toReplace, subjectedRole);
+                        }
+                        case 7 -> {
+                            toReplace = guild.getRolesByName("Saturday",true).get(0);
+                            Moderation.autoModifyRole(guild, toReplace, subjectedRole);
+                        }
+                        default -> {
+                        }
+                    }
+                }catch (Exception e){
+
+                    System.out.println("Something went wrong.");
+                    e.printStackTrace();
+                }
+            }
+        };
+        timer.schedule(timerTask, 0L, perDay);
     }
 
     private void parsedCommand(String command){
